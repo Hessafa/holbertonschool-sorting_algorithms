@@ -12,9 +12,9 @@
  */
 typedef struct listint_s
 {
-	tab const int n;             /* Integer value of the node */
-	tab struct listint_s *prev;  /* Pointer to the previous node */
-	tab struct listint_s *next;  /* Pointer to the next node */
+const int n;             /* Integer value of the node */
+struct listint_s *prev;  /* Pointer to the previous node */
+struct listint_s *next;  /* Pointer to the next node */
 } listint_t;
 
 void bubble_sort(int *array, size_t size);
