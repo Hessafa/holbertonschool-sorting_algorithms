@@ -1,45 +1,44 @@
 #include "sort.h"
 #include <stdio.h>
-
 /**
- * insertion_sort_list - Sort a doubly linked list of integers
- * @list: A pointer to the head of the list
+ * insertion_sort_list - Sorts doubly linked list of ints in ascending
+ * order using the Insertion sort algorithm.
+ *
+ * @list: pointer to a pointer to the head of the linked list.
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *current, *temp, *insert_pos;
+	listint_t *first = NULL, *center = NULL, *sec = NULL;
 
-	if (!list || !*list || !(*list)->next)
+	if (list == NULL || (*list)->next == NULL)
 		return;
 
-	current = (*list)->next;
-	while (current)
+	center = (*list)->next;
+	while (center != NULL)
 	{
-		temp = current;
-		current = current->next;
+		sec = center->next;
+		first = center->prev;
 
-		/* Move temp to its correct position in the sorted part of the list */
-		insert_pos = temp->prev;
-		while (insert_pos && insert_pos->n > temp->n)
+		while (first != NULL && first->n > center->n)
 		{
-			/* Swap the nodes */
-			insert_pos->next = temp->next;
-			if (temp->next)
-				temp->next->prev = insert_pos;
-			temp->prev = insert_pos->prev;
-			temp->next = insert_pos;
-			if (insert_pos->prev)
-				insert_pos->prev->next = temp;
-			insert_pos->prev = temp;
+			if (first->prev != NULL)
+				first->prev->next = center;
 
-			/* If temp was at the head of the list */
-			if (!temp->prev)
-				*list = temp;
+			if (center->next != NULL)
+				center->next->prev = first;
 
-			insert_pos = temp->prev;
+			first->next = center->next;
+			center->prev = first->prev;
+			first->prev = center;
+			center->next = first;
+
+			if (*list == first)
+				*list = center;
+
+			print_list(*list);
+
+			first = center->prev;
 		}
-
-		/* Print the list after every swap */
-		print_list(*list);
+		center = sec;
 	}
 }
